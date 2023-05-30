@@ -36,7 +36,7 @@
               height="100%"
               styling-mode="text"
             >
-              <user-panel :email="email" :menu-items="userMenuItems" menu-mode="context" />
+              <user-panel :email="email" :avatarURL="avatarURL" :menu-items="userMenuItems" :menuType="menuType" :loginMenuItems="logInMenuItems" menu-mode="context" />
             </dx-button>
           </div>
         </template>
@@ -74,7 +74,23 @@ export default {
     const route = useRoute();
 
     const email = ref("");
-    auth.getUser().then((e) => email.value = e.data.email);
+    const avatarURL = ref("");
+    const menuType = ref("logIn");
+
+    auth.getUser().then((e) => 
+    {
+      if(e.isOk)
+      {
+        email.value = e.data.USER.USERNAME;
+        avatarURL.value = e.data.AVATAR_URL;
+        menuType.value = "loggedIn";
+      }
+      else
+      {
+        email.value = "Log in";
+        avatarURL.value = null;
+      }
+    });
     
     const userMenuItems = [{
         text: "Profile",
@@ -82,9 +98,25 @@ export default {
         onClick: onProfileClick
       },
       {
+        text: "Warenkorb",
+        icon: 'cart',
+        onClick: () => {
+          router.push({
+            path: "/cart",
+            query: { redirect: route.fullPath }
+          });
+        }
+      },
+      {
         text: "Logout",
         icon: "runner",
         onClick: onLogoutClick
+    }];
+
+    const logInMenuItems = [{
+        text: "Login",
+        icon: "runner",
+        onClick: onLoginClick
     }];
       
     function onLogoutClick() {
@@ -102,9 +134,19 @@ export default {
       });
     }
 
+    function onLoginClick() {
+      router.push({
+        path: "/login-form",
+        query: { redirect: route.path }
+      });
+    }
+
     return {
       email,
-      userMenuItems
+      avatarURL,
+      userMenuItems,
+      menuType,
+      logInMenuItems
     };
   },
   components: {

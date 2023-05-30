@@ -6,8 +6,18 @@ import router from "./router";
 
 import App from "./App";
 import appInfo from "./app-info";
+import api from './api';
+import Cart from './cart';
+import auth from './auth';
 
-const app = createApp(App);
-app.use(router);
-app.config.globalProperties.$appInfo = appInfo;
-app.mount('#app');
+auth.getUser().then(() => 
+{
+    const app = createApp(App);
+    app.use(router);
+
+    app.config.globalProperties.$api = api;
+    app.config.globalProperties.$cart = new Cart(api);
+    app.config.globalProperties.$appInfo = appInfo;
+
+    app.mount('#app');
+});

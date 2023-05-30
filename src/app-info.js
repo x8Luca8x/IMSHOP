@@ -1,3 +1,4 @@
 export default {
-  title: "Im_shop"
+  title: "IMSHOP",
+  apiURL: "https://localhost:7215/api/",
 };

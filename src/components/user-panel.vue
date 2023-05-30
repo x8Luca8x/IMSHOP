@@ -2,15 +2,27 @@
   <div class="user-panel">
     <div class="user-info">
       <div class="image-container">
-        <div class="user-image" />
+        <img :src="avatarURL" class="user-image" v-if="avatarURL !== null"/>
+        <img src="../assets/anonymous.png" class="user-image" v-else/>
       </div>
       <div class="user-name">{{email}}</div>
     </div>
 
     <dx-context-menu
-      v-if="menuMode === 'context'"
+      v-if="menuMode === 'context' && menuType === 'loggedIn'"
       target=".user-button"
       :items="menuItems"
+      :width="210"
+      show-event="dxclick"
+      css-class="user-menu"
+    >
+      <dx-position my="top center" at="bottom center" />
+    </dx-context-menu>
+
+    <dx-context-menu
+      v-else-if="menuMode === 'context' && menuType === 'logIn'"
+      target=".user-button"
+      :items="loginMenuItems"
       :width="210"
       show-event="dxclick"
       css-class="user-menu"
@@ -33,8 +45,11 @@ import DxList from "devextreme-vue/list";
 export default {
   props: {
     menuMode: String,
+    menuType: String,
     menuItems: Array,
-    email: String
+    loginMenuItems: Array,
+    email: String,
+    avatarURL: String
   },
   components: {
     DxContextMenu,
@@ -68,8 +83,6 @@ export default {
     .user-image {
       width: 100%;
       height: 100%;
-      background: url("https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png")
-        no-repeat #fff;
       background-size: cover;
     }
   }

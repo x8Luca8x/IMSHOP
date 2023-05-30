@@ -2,7 +2,7 @@ import auth from "./auth";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import defaultLayout from "./layouts/side-nav-outer-toolbar";
-// import simpleLayout from "./layouts/single-card";
+import simpleLayout from "./layouts/single-card";
 
 function loadView(view) {
   return () => import (/* webpackChunkName: "login" */ `./views/${view}.vue`)
@@ -18,6 +18,34 @@ const router = new createRouter({
         layout: defaultLayout
       },
       component: loadView('HomeView')
+    },
+    {
+      path: "/article/:id?",
+      name: "article",
+      meta: {
+        requiresAuth: false,
+        layout: defaultLayout
+      },
+      component: loadView('ArticleView'),
+      props: true
+    },
+    {
+      path: "/cart",
+      name: "cart",
+      meta: {
+        requiresAuth: true,
+        layout: defaultLayout
+      },
+      component: loadView('CartView')
+    },
+    {
+      path: "/login-form",
+      name: "login-form",
+      meta: {
+        requiresAuth: false,
+        layout: simpleLayout
+      },
+      component: loadView('LoginForm')
     },
     {
       path: "/",
