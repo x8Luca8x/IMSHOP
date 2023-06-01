@@ -1,10 +1,16 @@
-export default [
+export default 
+[
   {
     text: "Home",
     path: "/home",
     icon: "home"
   },
   {
+    text: "Suche",
+    path: "/search",
+    icon: "find"
+  }
+  /*{
     text: "Examples",
     icon: "folder",
     items: [
@@ -17,5 +23,5 @@ export default [
         path: "/tasks"
       }
     ]
-  }
-  ];
+  }*/
+];

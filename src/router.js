@@ -30,6 +30,16 @@ const router = new createRouter({
       props: true
     },
     {
+      path: "/search/:searchQuery?",
+      name: "search",
+      meta: {
+        requiresAuth: false,
+        layout: defaultLayout
+      },
+      component: loadView('SearchView'),
+      props: true
+    },
+    {
       path: "/cart",
       name: "cart",
       meta: {
